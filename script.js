@@ -33,6 +33,15 @@ let backspace = function(n) {
         n = 0;
     return n;
 }
+let negate = function(n) {
+    if((n+"")[0] !== '-' && n != 0)
+        n = '-' + n;
+    else{
+        if(n != 0)
+            n = (n+"").slice(1);
+    }
+    return n;
+}
 
 
 for(let i = 0; i<5; i++) {
@@ -50,6 +59,10 @@ for(let i = 0; i<5; i++) {
                                 break;
                             n1 = backspace(n1);
                             break;
+                        case '+/-':
+                            n1 = negate(n1);
+                            break;
+
                         default:
                             if(n1 == 0 || oe == 1) {
                                 n1 = buttons[j];
@@ -67,11 +80,19 @@ for(let i = 0; i<5; i++) {
                         case '<-':
                             if(n2 === undefined) {
                                 display.textContent = n1;
-                                break;
+                                return;
                             }
                             n2 = backspace(n2);
-                            display.textContent = n2;
+                            //display.textContent = n2;
                             break;
+
+                        case '+/-':
+                            if(n2 === undefined) {
+                                n2 = negate(n1);
+                                break;
+                            }
+                                n2 = negate(n2);
+                                break;
                         default:
                             if(n2 === undefined || n2 == 0){
                                 n2 = buttons[j];
@@ -79,8 +100,9 @@ for(let i = 0; i<5; i++) {
                             else {
                                 n2 += buttons[j];
                             }
-                            display.textContent = n2;
+                            //display.textContent = n2;
                     }
+                    display.textContent = n2;
                     
                 }
             })
@@ -100,11 +122,6 @@ for(let i = 0; i<5; i++) {
                             break;
                         floatCheck = true;
                         n1 += '.';
-                        break; 
-                    case '<-':
-                        n1 = (n1+"").slice(0, n1.length - 1);
-                        if(n1 === '')
-                            n1 = 0;
                         break; 
                     case '+/-':
                         if((n1+"")[0] !== '-' && n1 != 0)
