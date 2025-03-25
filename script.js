@@ -22,16 +22,41 @@ const operate =  function (n1, o, n2) {
             console.log("error");
     }
 }
-
 let buttons = "C +/- <- / 7 8 9 * 4 5 6 - 1 2 3 + 0 . =".split(" ");
-buttons.forEach((b) => {
-    const btn = document.createElement("button");
-    if(Number.isInteger(+b))
-        btn.setAttribute("id", "num");
-    else
-        btn.setAttribute("id", b);
-    btn.textContent = b;
-    
+const container = document.querySelector(".container");
+const display = document.querySelector(".display");
+let n1 = 0;
+let n2 = o = undefined;
+for(let i = 0; i<5; i++) {
+    const row = document.createElement("div")
+    row.setAttribute("class", "row")
+    for(let j=i*4,c=0; j < buttons.length && c<4;j++,c++){
+        const btn = document.createElement("button");
+        if(Number.isInteger(+buttons[j])){
+            btn.setAttribute("id", "num");
+            btn.addEventListener("click", (e) =>{
+                if(o === undefined){
+                    if(n1 == 0) {
+                        n1 = buttons[j];
+                    }
+                    else {
+                        n1 += buttons[j];
+                    }
+                }
+                display.textContent = n1;
+            })
 
-})
+        }
+        else{
+            btn.setAttribute("id", buttons[j]);
+        }
+            
+        btn.textContent = buttons[j];
+
+
+        row.appendChild(btn)
+    }
+    container.appendChild(row)
+
+}
 

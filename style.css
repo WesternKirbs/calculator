@@ -1,0 +1,22 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.container {
+    width: 280px;
+    height: 580px;
+    display: flex;
+    flex-direction: column;
+   
+}
+.display {
+    width: 200px;
+    height: 100px;
+    background-color: black;
+    margin: 8px;
+    color:white;
+    
+    
+}
