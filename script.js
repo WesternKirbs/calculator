@@ -43,6 +43,14 @@ let negate = function(n) {
     return n;
 }
 
+let float = function(n) {
+        if(floatCheck || !Number.isInteger(+n))
+            return n;
+        floatCheck = true;
+        n += '.';
+        return n;
+}
+
 
 for(let i = 0; i<5; i++) {
     const row = document.createElement("div")
@@ -62,9 +70,17 @@ for(let i = 0; i<5; i++) {
                         case '+/-':
                             n1 = negate(n1);
                             break;
-
+                        case '.':
+                            if(oe) {
+                                n1 = float(0);
+                                oe += 1;
+                                break;
+                            }
+                            n1 = float(n1);
+                            break;
+                
                         default:
-                            if(n1 == 0 || oe == 1) {
+                            if((!floatCheck && n1 == 0)|| oe == 1) {
                                 n1 = buttons[j];
                                 if(oe)
                                     oe += 1;
@@ -83,7 +99,6 @@ for(let i = 0; i<5; i++) {
                                 return;
                             }
                             n2 = backspace(n2);
-                            //display.textContent = n2;
                             break;
 
                         case '+/-':
@@ -93,14 +108,22 @@ for(let i = 0; i<5; i++) {
                             }
                                 n2 = negate(n2);
                                 break;
+                        
+                        case '.':
+                            if(n2 === undefined) {
+                                n2 = float(0);
+                                break;
+                            }
+                            n2 = float(n2);
+                            break;
+
                         default:
-                            if(n2 === undefined || n2 == 0){
+                            if(n2 === undefined || (!floatCheck && n2 == 0)){
                                 n2 = buttons[j];
                             }
                             else {
                                 n2 += buttons[j];
                             }
-                            //display.textContent = n2;
                     }
                     display.textContent = n2;
                     
@@ -116,39 +139,24 @@ for(let i = 0; i<5; i++) {
                         n2 = o = undefined;
                         floatCheck = false;
                         break;
-                    /*
-                    case '.':
-                        if(floatCheck)
-                            break;
-                        floatCheck = true;
-                        n1 += '.';
-                        break; 
-                    case '+/-':
-                        if((n1+"")[0] !== '-' && n1 != 0)
-                            n1 = '-' + n1;
-                        else{
-                            if(n1 != 0)
-                                n1 = (n1+"").slice(1);
-                        }
-                        break; */
+
                     default:
                         if(n2 !== undefined) {
                             if(buttons[j] === '='){
                                 oe = 1;
                                 n1 = operate(+n1, o, +n2);
-                                //display.textContent = n1;
                             }
                             else{
                                 if(!oe)
                                     n1 = operate(+n1, o, +n2);
                                 n2 = undefined;
                                 oe = 0;
-                                //display.textContent = n1;
                             } 
                         }
                         if(buttons[j] !== '=')
                             o = buttons[j];
                 }
+                floatCheck = false;
                 display.textContent = n1;
 
             })
