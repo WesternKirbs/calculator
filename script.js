@@ -23,58 +23,117 @@ const operate =  function (n1, o, n2) {
 let buttons = "C +/- <- / 7 8 9 * 4 5 6 - 1 2 3 + 0 . =".split(" ");
 const container = document.querySelector(".container");
 const display = document.querySelector(".display");
-let n1 = 0;
+let n1 = oe = 0;
 let n2 = o = undefined;
-let oe = 0;
+let floatCheck = false;
+
+let backspace = function(n) {
+    n = (n+"").slice(0, n.length - 1);
+    if(n === '')
+        n = 0;
+    return n;
+}
+
+
 for(let i = 0; i<5; i++) {
     const row = document.createElement("div")
     row.setAttribute("class", "row")
     for(let j=i*4,c=0; j < buttons.length && c<4;j++,c++){
         const btn = document.createElement("button");
-        if(Number.isInteger(+buttons[j])){
-            btn.setAttribute("id", "num");
+        if(Number.isInteger(+buttons[j]) || "+/- <- .".split(" ").includes(buttons[j])){
+            //btn.setAttribute("id", "num");
             btn.addEventListener("click", (e) =>{
                 if(o === undefined || oe){
-                    if(n1 == 0 || oe == 1) {
-                        n1 = buttons[j];
-                        if(oe)
-                            oe += 1;
-                    }
-                    else {
-                        n1 += buttons[j];
-                    }
+                    switch(buttons[j]){
+                        case '<-':
+                            if(oe)
+                                break;
+                            n1 = backspace(n1);
+                            break;
+                        default:
+                            if(n1 == 0 || oe == 1) {
+                                n1 = buttons[j];
+                                if(oe)
+                                    oe += 1;
+                            }
+                            else {
+                                n1 += buttons[j];
+                            }     
+                    } 
                     display.textContent = n1;
                 }
                 else{
-                    if(n2 === undefined || n2 == 0){
-                        n2 = buttons[j];
+                    switch(buttons[j]){
+                        case '<-':
+                            if(n2 === undefined) {
+                                display.textContent = n1;
+                                break;
+                            }
+                            n2 = backspace(n2);
+                            display.textContent = n2;
+                            break;
+                        default:
+                            if(n2 === undefined || n2 == 0){
+                                n2 = buttons[j];
+                            }
+                            else {
+                                n2 += buttons[j];
+                            }
+                            display.textContent = n2;
                     }
-                    else {
-                        n2 += buttons[j];
-                    }
-                    display.textContent = n2;
+                    
                 }
             })
         }
         else{
             btn.setAttribute("id", buttons[j]);
             btn.addEventListener("click", (e) =>{
-                if(n2 !== undefined) {
-                    if(buttons[j] === '='){
-                        oe = 1;
-                        n1 = operate(+n1, o, +n2);
-                        display.textContent = n1;
-                    }
-                    else{
-                        if(!oe)
-                            n1 = operate(+n1, o, +n2);
-                        n2 = undefined;
-                        oe = 0;
-                        display.textContent = n1;
-                    } 
+                switch(buttons[j]){
+                    case 'C':
+                        n1 = oe =0;
+                        n2 = o = undefined;
+                        floatCheck = false;
+                        break;
+                    /*
+                    case '.':
+                        if(floatCheck)
+                            break;
+                        floatCheck = true;
+                        n1 += '.';
+                        break; 
+                    case '<-':
+                        n1 = (n1+"").slice(0, n1.length - 1);
+                        if(n1 === '')
+                            n1 = 0;
+                        break; 
+                    case '+/-':
+                        if((n1+"")[0] !== '-' && n1 != 0)
+                            n1 = '-' + n1;
+                        else{
+                            if(n1 != 0)
+                                n1 = (n1+"").slice(1);
+                        }
+                        break; */
+                    default:
+                        if(n2 !== undefined) {
+                            if(buttons[j] === '='){
+                                oe = 1;
+                                n1 = operate(+n1, o, +n2);
+                                //display.textContent = n1;
+                            }
+                            else{
+                                if(!oe)
+                                    n1 = operate(+n1, o, +n2);
+                                n2 = undefined;
+                                oe = 0;
+                                //display.textContent = n1;
+                            } 
+                        }
+                        if(buttons[j] !== '=')
+                            o = buttons[j];
                 }
-                if(buttons[j] !== '=')
-                    o = buttons[j];
+                display.textContent = n1;
+
             })
             
         }
