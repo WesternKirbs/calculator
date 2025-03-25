@@ -1,5 +1,4 @@
 const add = (n1, n2) => n1+n2;
-
 const subtract = (n1,n2) =>n1-n2;
 const divide = (n1,n2) => n1/n2;
 const multiply = (n1,n2) => n1*n2;
@@ -157,6 +156,13 @@ for(let i = 0; i<5; i++) {
                             o = buttons[j];
                 }
                 floatCheck = false;
+                if(n1 == Infinity || isNaN(n1))  {
+                    display.textContent = "Error";
+                    n1 = oe = 0;
+                    n2 = o = undefined;
+                    floatCheck = false;
+                    return;
+                }
                 display.textContent = n1;
 
             })
