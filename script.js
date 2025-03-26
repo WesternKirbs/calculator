@@ -1,4 +1,8 @@
-// ui update
+
+// equate bug with keyboard after clear
+// backspace bug  after equate fixed
+// number out of container
+
 
 const add = (n1, n2) => n1+n2;
 const subtract = (n1,n2) =>n1-n2;
@@ -30,7 +34,7 @@ let floatCheck = false;
 
 let backspace = function(n) {
     n = (n+"").slice(0, n.length - 1);
-    if(n === '')
+    if(n === '' || n === '-')
         n = 0;
     return n;
 }
@@ -43,13 +47,19 @@ let negate = function(n) {
     }
     return n;
 }
-
 let float = function(n) {
-        if(floatCheck || !Number.isInteger(+n))
+        if(floatCheck && !Number.isInteger(+n))
             return n;
         floatCheck = true;
         n += '.';
         return n;
+}
+
+let untoggle_operator = () => {
+    let a = document.getElementsByClassName("operator_click"); 
+    for(let i = 0; i<a.length; i++) {
+        a[i].classList.remove("operator_click");
+    }
 }
 
 let w = document.getElementById("container").offsetWidth;
@@ -87,16 +97,17 @@ for(let i = 0; i<5; i++) {
 
             btn.addEventListener("click", (e) =>{
                 if(buttons[j] == 'C') {
-                    n1 = oe =0;
+                    n1 = oe = 0;
                     n2 = o = undefined;
                     floatCheck = false;
                     display.textContent = n1;
+                    untoggle_operator();
                     return;
                 }
                 if(o === undefined || oe){
                     switch(buttons[j]){
                         case '<-':
-                            if(oe)
+                            if(oe <= 1)
                                 break;
                             n1 = backspace(n1);
                             break;
@@ -159,8 +170,8 @@ for(let i = 0; i<5; i++) {
                             }
                     }
                     display.textContent = n2;
-                    
                 }
+                untoggle_operator();
             })
         }
         else{
@@ -172,6 +183,7 @@ for(let i = 0; i<5; i++) {
                 e.target.classList.toggle("operator_hover");
             });
             btn.addEventListener("click", (e) =>{
+                untoggle_operator();
                 if(n2 !== undefined) {
                     if(buttons[j] === '='){
                         oe = 1;
@@ -183,9 +195,14 @@ for(let i = 0; i<5; i++) {
                         n2 = undefined;
                         oe = 0;
                     } 
+                } else if(buttons[j] === '=') {
+                    n1 = operate(+n1, o, +n1);
                 }
-                if(buttons[j] !== '=')
+
+                if(buttons[j] !== '=') {
+                    e.target.classList.toggle("operator_click");
                     o = buttons[j];
+                }
                 floatCheck = false;
                 if(n1 == Infinity || isNaN(n1))  {
                     display.textContent = "Error";
@@ -213,16 +230,44 @@ for(let i = 0; i<5; i++) {
 }
 
 window.addEventListener("keydown", (e) => {
+    let element = null;
     switch(e.key){
         case "Backspace":
-            document.getElementById("<-").click();
+            element = document.getElementById("<-");
             break;
         case "Enter":
-            document.getElementById("=").click();
+            element = document.getElementById("=");
             break;
         default:
             if(document.getElementById(e.key) !== null)
-                document.getElementById(e.key).click();
+                element = document.getElementById(e.key);
+        }
+        
+        if(element !== null) {
+            element.click();
+            
+            element.classList.toggle(`${element.classList[0]}_hover`);
+        }
 
-}})
+})
+
+window.addEventListener("keyup", (e) => {
+    let element = null;
+    switch(e.key){
+        case "Backspace":
+            element = document.getElementById("<-");
+            break;
+        case "Enter":
+            element = document.getElementById("=");
+            break;
+        default:
+            if(document.getElementById(e.key) !== null)
+                element = document.getElementById(e.key);
+        }
+        
+        if(element !== null) {
+            element.classList.toggle(`${element.classList[0]}_hover`);
+        }
+    
+})
 

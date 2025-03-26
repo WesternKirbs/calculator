@@ -42,6 +42,10 @@ button{
 .operator_hover{
     background-color: #fbc78d;
 }
+.operator_click{
+    background-color: #fbfbfc;
+    color: #ff9404;
+}
 
 
 
