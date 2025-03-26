@@ -1,9 +1,4 @@
-
 // equate bug with keyboard after clear/floating point
-// backspace bug  after equate fixed
-// floating point bugs
-
-
 // number out of container
 
 const add = (n1, n2) => n1+n2;
@@ -119,7 +114,7 @@ for(let i = 0; i<5; i++) {
                             n1 = negate(n1);
                             break;
                         case '.':
-                            if(oe) {
+                            if(oe == 1) {
                                 n1 = float(0);
                                 oe += 1;
                                 break;
