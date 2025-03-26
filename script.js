@@ -1,8 +1,5 @@
 // ui update
 // floating point optimize
-
-
-
 const add = (n1, n2) => n1+n2;
 const subtract = (n1,n2) =>n1-n2;
 const divide = (n1,n2) => n1/n2;
@@ -166,8 +163,12 @@ for(let i = 0; i<5; i++) {
                     n2 = o = undefined;
                     floatCheck = false;
                     return;
+                } 
+                else if(!Number.isInteger(+n1)){
+                    display.textContent = parseFloat(n1.toPrecision(9));
                 }
-                display.textContent = n1;
+                else 
+                    display.textContent = n1;
             })
         }
         btn.textContent = buttons[j];
