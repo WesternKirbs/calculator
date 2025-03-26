@@ -39,13 +39,24 @@ button{
     background-color: #ff9404;
     color: #fbfbfc;
 }
+.operator_hover{
+    background-color: #fbc78d;
+}
+
+
 
 .num {
     background-color: #333333;
     color: white;
 }
+.num_hover {
+    background-color: #737373;
+}
 
-#C, .symbol {
+ .symbol {
     background-color: #a5a5a5;
     color: black;
+}
+ .symbol_hover {
+    background-color: #d9d9d9;
 }

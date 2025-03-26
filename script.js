@@ -63,14 +63,36 @@ for(let i = 0; i<5; i++) {
     for(let j=i*4,c=0; j < buttons.length && c<4;j++,c++){
         const btn = document.createElement("button");
         btn.setAttribute("id", buttons[j]);
-        if(Number.isInteger(+buttons[j]) || "+/- <- .".split(" ").includes(buttons[j])){
+        if(Number.isInteger(+buttons[j]) || "+/- <- . C".split(" ").includes(buttons[j])){
             
-            if(Number.isInteger(+buttons[j]) || buttons[j] == ".")
+            if(Number.isInteger(+buttons[j]) || buttons[j] == ".") {
                 btn.setAttribute("class","num");
-            else
+                btn.addEventListener("mouseover", (e) =>{
+                    e.target.classList.toggle("num_hover");
+                });
+                btn.addEventListener("mouseout", (e) =>{
+                    e.target.classList.toggle("num_hover");
+                });
+            }  
+            else {
                 btn.setAttribute("class","symbol");
+                btn.addEventListener("mouseover", (e) =>{
+                    e.target.classList.toggle("symbol_hover");
+                });
+                btn.addEventListener("mouseout", (e) =>{
+                    e.target.classList.toggle("symbol_hover");
+                });
+            }
+                
 
             btn.addEventListener("click", (e) =>{
+                if(buttons[j] == 'C') {
+                    n1 = oe =0;
+                    n2 = o = undefined;
+                    floatCheck = false;
+                    display.textContent = n1;
+                    return;
+                }
                 if(o === undefined || oe){
                     switch(buttons[j]){
                         case '<-':
@@ -143,30 +165,27 @@ for(let i = 0; i<5; i++) {
         }
         else{
             btn.setAttribute("class","operator");
+            btn.addEventListener("mouseover", (e) =>{
+                e.target.classList.toggle("operator_hover");
+            });
+            btn.addEventListener("mouseout", (e) =>{
+                e.target.classList.toggle("operator_hover");
+            });
             btn.addEventListener("click", (e) =>{
-                switch(buttons[j]){
-                    case 'C':
-                        n1 = oe =0;
-                        n2 = o = undefined;
-                        floatCheck = false;
-                        break;
-
-                    default:
-                        if(n2 !== undefined) {
-                            if(buttons[j] === '='){
-                                oe = 1;
-                                n1 = operate(+n1, o, +n2);
-                            }
-                            else{
-                                if(!oe)
-                                    n1 = operate(+n1, o, +n2);
-                                n2 = undefined;
-                                oe = 0;
-                            } 
-                        }
-                        if(buttons[j] !== '=')
-                            o = buttons[j];
+                if(n2 !== undefined) {
+                    if(buttons[j] === '='){
+                        oe = 1;
+                        n1 = operate(+n1, o, +n2);
+                    }
+                    else{
+                        if(!oe)
+                            n1 = operate(+n1, o, +n2);
+                        n2 = undefined;
+                        oe = 0;
+                    } 
                 }
+                if(buttons[j] !== '=')
+                    o = buttons[j];
                 floatCheck = false;
                 if(n1 == Infinity || isNaN(n1))  {
                     display.textContent = "Error";
