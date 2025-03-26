@@ -1,8 +1,10 @@
 
-// equate bug with keyboard after clear
+// equate bug with keyboard after clear/floating point
 // backspace bug  after equate fixed
-// number out of container
+// floating point bugs
 
+
+// number out of container
 
 const add = (n1, n2) => n1+n2;
 const subtract = (n1,n2) =>n1-n2;
@@ -33,6 +35,8 @@ let n2 = o = undefined;
 let floatCheck = false;
 
 let backspace = function(n) {
+    if((n+"")[n.length - 1] == '.')
+        floatCheck = false;
     n = (n+"").slice(0, n.length - 1);
     if(n === '' || n === '-')
         n = 0;
@@ -48,7 +52,7 @@ let negate = function(n) {
     return n;
 }
 let float = function(n) {
-        if(floatCheck && !Number.isInteger(+n))
+        if(floatCheck || (!Number.isInteger(+n)) )
             return n;
         floatCheck = true;
         n += '.';
@@ -107,7 +111,7 @@ for(let i = 0; i<5; i++) {
                 if(o === undefined || oe){
                     switch(buttons[j]){
                         case '<-':
-                            if(oe <= 1)
+                            if(oe == 1)
                                 break;
                             n1 = backspace(n1);
                             break;
@@ -195,8 +199,10 @@ for(let i = 0; i<5; i++) {
                         n2 = undefined;
                         oe = 0;
                     } 
-                } else if(buttons[j] === '=') {
-                    n1 = operate(+n1, o, +n1);
+                } else if(buttons[j] === '=' && o !== undefined) {
+                    oe = 1;
+                    n2 = n1;
+                    n1 = operate(+n1, o, +n2);
                 }
 
                 if(buttons[j] !== '=') {
@@ -212,7 +218,7 @@ for(let i = 0; i<5; i++) {
                     return;
                 } 
                 else if(!Number.isInteger(+n1)){
-                    display.textContent = parseFloat(n1.toPrecision(9));
+                    display.textContent = parseFloat((+n1).toPrecision(9));
                 }
                 else 
                     display.textContent = n1;
@@ -245,8 +251,9 @@ window.addEventListener("keydown", (e) => {
         
         if(element !== null) {
             element.click();
-            
+            console.log(element.classList);
             element.classList.toggle(`${element.classList[0]}_hover`);
+            console.log(element.classList);
         }
 
 })
