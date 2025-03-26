@@ -1,3 +1,8 @@
+// ui update
+// floating point optimize
+
+
+
 const add = (n1, n2) => n1+n2;
 const subtract = (n1,n2) =>n1-n2;
 const divide = (n1,n2) => n1/n2;
@@ -56,8 +61,8 @@ for(let i = 0; i<5; i++) {
     row.setAttribute("class", "row")
     for(let j=i*4,c=0; j < buttons.length && c<4;j++,c++){
         const btn = document.createElement("button");
+        btn.setAttribute("id", buttons[j]);
         if(Number.isInteger(+buttons[j]) || "+/- <- .".split(" ").includes(buttons[j])){
-            //btn.setAttribute("id", "num");
             btn.addEventListener("click", (e) =>{
                 if(o === undefined || oe){
                     switch(buttons[j]){
@@ -130,7 +135,6 @@ for(let i = 0; i<5; i++) {
             })
         }
         else{
-            btn.setAttribute("id", buttons[j]);
             btn.addEventListener("click", (e) =>{
                 switch(buttons[j]){
                     case 'C':
@@ -164,17 +168,24 @@ for(let i = 0; i<5; i++) {
                     return;
                 }
                 display.textContent = n1;
-
             })
-            
         }
-            
         btn.textContent = buttons[j];
-
-
         row.appendChild(btn)
     }
     container.appendChild(row)
-
 }
+
+window.addEventListener("keydown", (e) => {
+    switch(e.key){
+        case "Backspace":
+            document.getElementById("<-").click();
+            break;
+        case "Enter":
+            document.getElementById("=").click();
+            break;
+        default:
+            document.getElementById(e.key).click();
+
+}})
 
