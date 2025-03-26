@@ -1,5 +1,5 @@
 // ui update
-// floating point optimize
+
 const add = (n1, n2) => n1+n2;
 const subtract = (n1,n2) =>n1-n2;
 const divide = (n1,n2) => n1/n2;
@@ -22,7 +22,7 @@ const operate =  function (n1, o, n2) {
     }
 }
 let buttons = "C +/- <- / 7 8 9 * 4 5 6 - 1 2 3 + 0 . =".split(" ");
-const container = document.querySelector(".container");
+const container = document.querySelector("#container");
 const display = document.querySelector(".display");
 let n1 = oe = 0;
 let n2 = o = undefined;
@@ -52,6 +52,10 @@ let float = function(n) {
         return n;
 }
 
+let w = document.getElementById("container").offsetWidth;
+let h = document.getElementById("container").offsetHeight;
+display.setAttribute("style", ` width:${w}px; height:${h*2/5}px`);
+let wd = display.offsetWidth;
 
 for(let i = 0; i<5; i++) {
     const row = document.createElement("div")
@@ -60,6 +64,12 @@ for(let i = 0; i<5; i++) {
         const btn = document.createElement("button");
         btn.setAttribute("id", buttons[j]);
         if(Number.isInteger(+buttons[j]) || "+/- <- .".split(" ").includes(buttons[j])){
+            
+            if(Number.isInteger(+buttons[j]) || buttons[j] == ".")
+                btn.setAttribute("class","num");
+            else
+                btn.setAttribute("class","symbol");
+
             btn.addEventListener("click", (e) =>{
                 if(o === undefined || oe){
                     switch(buttons[j]){
@@ -132,6 +142,7 @@ for(let i = 0; i<5; i++) {
             })
         }
         else{
+            btn.setAttribute("class","operator");
             btn.addEventListener("click", (e) =>{
                 switch(buttons[j]){
                     case 'C':
@@ -172,6 +183,11 @@ for(let i = 0; i<5; i++) {
             })
         }
         btn.textContent = buttons[j];
+        if(buttons[j] == '0')
+            btn.setAttribute("style", ` width:${wd/ 2}px; height:${h*3/25}px`);
+        else
+            btn.setAttribute("style", ` width:${wd / 4}px; height:${h*3/25}px`);
+        row.setAttribute("style", ` width: ${wd}px; height:${h*3/25}px;`)
         row.appendChild(btn)
     }
     container.appendChild(row)
@@ -186,7 +202,8 @@ window.addEventListener("keydown", (e) => {
             document.getElementById("=").click();
             break;
         default:
-            document.getElementById(e.key).click();
+            if(document.getElementById(e.key) !== null)
+                document.getElementById(e.key).click();
 
 }})
 

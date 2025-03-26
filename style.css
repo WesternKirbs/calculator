@@ -2,21 +2,50 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: gray;
 
 }
-.container {
-    width: 280px;
-    height: 580px;
+#container {
+    width: 400px;
+    height: 600px;
     display: flex;
     flex-direction: column;
+    background-color: black;
    
 }
 .display {
-    width: 200px;
-    height: 100px;
     background-color: black;
-    margin: 8px;
     color:white;
-    
-    
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+    font-size: 75px;
+    padding: 8px;
+     
+}
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px;
+    padding: 0px;
+}
+button{
+    border: black solid;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.operator {
+    background-color: #ff9404;
+    color: #fbfbfc;
+}
+
+.num {
+    background-color: #333333;
+    color: white;
+}
+
+#C, .symbol {
+    background-color: #a5a5a5;
+    color: black;
 }
