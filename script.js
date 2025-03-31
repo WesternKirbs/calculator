@@ -1,5 +1,3 @@
-// equate bug with keyboard after clear/floating point
-
 const add = (n1, n2) => n1+n2;
 const subtract = (n1,n2) =>n1-n2;
 const divide = (n1,n2) => n1/n2;
@@ -95,11 +93,13 @@ for(let i = 0; i<5; i++) {
 
             btn.addEventListener("click", (e) =>{
                 if(buttons[j] == 'C') {
+                    
                     n1 = oe = 0;
                     n2 = o = undefined;
                     floatCheck = false;
                     display.textContent = n1;
                     untoggle_operator();
+                    console.log("clear");
                     return;
                 }
                 if(o === undefined || oe){
@@ -223,8 +223,12 @@ for(let i = 0; i<5; i++) {
                 else if(!Number.isInteger(+n1)){
                     display.textContent = parseFloat((+n1).toPrecision(9));
                 }
-                else 
+                else {
+                    console.log("display!");
                     display.textContent = n1;
+                } 
+            
+                console.log(`${n1} ${o} ${n2}`);
             })
         }
         btn.textContent = buttons[j];
@@ -244,9 +248,12 @@ window.addEventListener("keydown", (e) => {
         case "Backspace":
             element = document.getElementById("<-");
             break;
+        
         case "Enter":
+            e.preventDefault();
             element = document.getElementById("=");
             break;
+        
         default:
             if(document.getElementById(e.key) !== null)
                 element = document.getElementById(e.key);
@@ -254,9 +261,7 @@ window.addEventListener("keydown", (e) => {
         
         if(element !== null) {
             element.click();
-            console.log(element.classList);
             element.classList.toggle(`${element.classList[0]}_hover`);
-            console.log(element.classList);
         }
 
 })
@@ -267,9 +272,11 @@ window.addEventListener("keyup", (e) => {
         case "Backspace":
             element = document.getElementById("<-");
             break;
+        
         case "Enter":
             element = document.getElementById("=");
             break;
+        
         default:
             if(document.getElementById(e.key) !== null)
                 element = document.getElementById(e.key);
@@ -280,4 +287,3 @@ window.addEventListener("keyup", (e) => {
         }
     
 })
-
