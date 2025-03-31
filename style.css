@@ -19,10 +19,10 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: end;
-    font-size: 75px;
+    font-size: 72px;
     padding: 8px;
-     
 }
+
 .row {
     display: flex;
     justify-content: space-between;

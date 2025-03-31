@@ -114,12 +114,14 @@ for(let i = 0; i<5; i++) {
                             n1 = negate(n1);
                             break;
                         case '.':
-                            if(oe == 1) {
-                                n1 = float(0);
-                                oe += 1;
-                                break;
+                            if((n1+"").length < 9 ) {
+                                if(oe == 1) {
+                                    n1 = float(0);
+                                    oe += 1;
+                                    break;
+                                }
+                                n1 = float(n1);
                             }
-                            n1 = float(n1);
                             break;
                 
                         default:
@@ -129,7 +131,8 @@ for(let i = 0; i<5; i++) {
                                     oe += 1;
                             }
                             else {
-                                n1 += buttons[j];
+                                if((n1+"").length < 9 || (floatCheck && (n1+"").length < 10))
+                                    n1 += buttons[j];
                             }     
                     } 
                     display.textContent = n1;
@@ -153,11 +156,13 @@ for(let i = 0; i<5; i++) {
                                 break;
                         
                         case '.':
-                            if(n2 === undefined) {
-                                n2 = float(0);
-                                break;
+                            if((n2+"").length < 9 ) {
+                                if(n2 === undefined) {
+                                    n2 = float(0);
+                                    break;
+                                }
+                                n2 = float(n2);
                             }
-                            n2 = float(n2);
                             break;
 
                         default:
@@ -165,7 +170,8 @@ for(let i = 0; i<5; i++) {
                                 n2 = buttons[j];
                             }
                             else {
-                                n2 += buttons[j];
+                                if((n2+"").length < 9 || (floatCheck && (n2+"").length < 10))
+                                    n2 += buttons[j];
                             }
                     }
                     display.textContent = n2;
