@@ -1,5 +1,11 @@
-# calculator
- = logisitcs:
- input "n1 op =" will result in "n1 += n1"
- input "n1 op n2 = =" will result in "n1 op n2 op n2"
- input "n1 op n2 = n3 =" will display "n1 op n2" first, then display "n3 op n2"
+# Calculator
+
+A simple  calculator application designed to handle basic arithmetic operations.
+
+## Features
+
+- Addition, subtraction, multiplication, and division
+- Backspace, clear all, decimal point, and negate functionality
+- Hover effects for responsive feedback
+- Supports keyboard input
+
