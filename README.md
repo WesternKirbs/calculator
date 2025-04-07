@@ -1,4 +1,4 @@
-# Calculator
+# [Calculator](https://westernkirbs.github.io/calculator/)
 
 A simple  calculator application designed to handle basic arithmetic operations.
 
